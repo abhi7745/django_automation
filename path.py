@@ -1,2 +1,9 @@
 BASE_DIR = ""
-# BASE_DIR = "/workspaces/django_automation/abhi/trial"
+
+# Example:-
+
+# Windows
+# BASE_DIR = 'C:\\your\\path\\to\\project\\folder'
+
+# Linux and Mac
+# BASE_DIR = "/workspaces/django_automation/"
