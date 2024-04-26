@@ -1,9 +1,9 @@
-BASE_DIR = ""
+BASE_DIR = r""
 
-# Example:-
+# Examples:-
 
-# Windows
-# BASE_DIR = 'C:\\your\\path\\to\\project\\folder'
+## Windows
+# BASE_DIR = r"C:/your/path/to/project/folder"
 
-# Linux and Mac
-# BASE_DIR = "/workspaces/django_automation/"
+## Linux and Mac
+# BASE_DIR = r"/your/path/to/project/folder"
