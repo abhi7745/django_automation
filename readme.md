@@ -65,12 +65,12 @@ You can specify where you want to save the project by providing the path locatio
     
     - For Windows:
       ```python
-      BASE_DIR = 'C:\\your\\path\\to\\project\\folder'
+      BASE_DIR = r"C:/your/path/to/project/folder"
       ```
 
     - For Linux / Mac:
       ```python
-      BASE_DIR = '/your/path/to/project/folder'
+      BASE_DIR = r"/your/path/to/project/folder"
       ```
 
 ### 4. Enter your desired apps:
