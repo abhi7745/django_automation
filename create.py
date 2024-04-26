@@ -3,6 +3,11 @@ import os
 import webbrowser
 from path import BASE_DIR
 import platform, shutil, subprocess
+# Importing settings_rewriter from utils module
+from utils.settings_writter import settings_rewriter, static_writer
+
+def Loading():
+    print('Loading...')
 
 # path selection section
 while True:
@@ -28,7 +33,7 @@ while True:
     else:
         continue
 
-
+Loading()
 if BASE_DIR != "":
 
     if not len(sys.argv) <= 1:
@@ -49,6 +54,7 @@ if BASE_DIR != "":
                 f"'e' to exit from the program: ")
 
             if value.lower() == 'd':
+                Loading()
                 shutil.rmtree(base_dir + project_name)  # Remove directory and its contents
             
             elif value.lower() == 'n':
@@ -94,6 +100,7 @@ if BASE_DIR != "":
 
 
         print(f'\nCreating your project on "{base_dir}" directory')
+        Loading()
 
         # main project creation section
         if system == "Windows" or system == "Linux" or system == "Darwin":
@@ -111,94 +118,64 @@ if BASE_DIR != "":
                 # checking which operating system
                 print(system, os.getcwd())
                 if system == "Windows":
-                    # os.chdir(base_dir + project_name + '\\venv\\scripts')
-                    # os.system('activate')
-                    # os.chdir(os.path.join(base_dir, project_name, 'venv', 'Scripts'))
-                    # installing django in virtual environment
-                    # subprocess.run('activate && pip install django', shell=True, check=True)
                     activate_script = os.path.join(base_dir, project_name, 'venv', 'Scripts', 'activate')
+                    Loading()
                     # Activate the virtual environment and install Django
                     subprocess.run(f'"{activate_script}" && pip install django', shell=True, check=True)
-                    
+                    Loading()
+                    subprocess.run(f'django-admin startproject {project_name} .', shell=True, check=True)
 
-                # elif system == "Linux":
-                #     print(system)
-                #     os.chdir(base_dir + project_name)
-                #     # os.system('source venv/bin/activate')
-                #     # os.system('pip install django')
-                #     activate_script = os.path.join('venv', 'bin', 'activate')
-                #     subprocess.run(['bash', '-c', f'source {activate_script} && pip install django'], check=True)
-                #     print(os.getcwd())
-                    
+                     # Running python manage.py startapp command within the activated virtual environment
+                    # print('length or apps: ############# ',len(apps))
+                    Loading()
+                    if len(apps) > 0:
+                        for app in apps[::-1]:
+                            subprocess.run(f'python manage.py startapp {app}', shell=True, check=True)
+                            settings_rewriter(os.path.join(base_dir, project_name, project_name, 'settings.py'), app)
 
-                # elif system == "Darwin":
-                #     os.chdir(base_dir + project_name)
-                #     subprocess.call(['source', 'venv/bin/activate'], shell=True)
-
-                # elif system == "Linux" or system == "Darwin":
-                #     activate_script = os.path.join(base_dir, project_name, 'venv', 'bin', 'activate')
-                #     # installing django in virtual environment
-                #     subprocess.run(f'. {activate_script} && pip install django', shell=True, check=True)
-                    
 
                 elif system == "Linux" or system == "Darwin":
                     activate_script = os.path.join(base_dir, project_name, 'venv', 'bin', 'activate')
                     # Install Django within the virtual environment
+                    Loading()
                     subprocess.run(f'bash -c "source {activate_script} && pip install django"', shell=True, check=True)
-                
+                    
+                    Loading()
+                    # Run django-admin startproject command within the activated virtual environment
+                    subprocess.run(f'bash -c "source {activate_script} && django-admin startproject {project_name} ."', shell=True, check=True)
+
+
+                    # Running python manage.py startapp command within the activated virtual environment
+                    # print('length or apps: ############# ',len(apps))
+                    Loading()
+                    if len(apps) > 0:
+                        for app in apps[::-1]:
+                            subprocess.run(f'bash -c "source {activate_script} && python manage.py startapp {app}"', shell=True, check=True)
+                            settings_rewriter(os.path.join(base_dir, project_name, project_name, 'settings.py'), app)
+
+                Loading()
+                static_writer(os.path.join(base_dir, project_name, project_name, 'settings.py'))
                 
                 # Change directory to the project directory
+                Loading()
                 os.chdir(os.path.join(base_dir, project_name))
 
-                # Run django-admin startproject command within the activated virtual environment
-                subprocess.run(f'bash -c "source {activate_script} && django-admin startproject {project_name} ."', shell=True, check=True)
-
-                # Importing settings_rewriter from utils module
-                from utils.settings_writter import settings_rewriter, static_writer, database_configure
-
-                # Running python manage.py startapp command within the activated virtual environment
-                # print('length or apps: ############# ',len(apps))
-                if len(apps) > 0:
-                    for app in apps[::-1]:
-                        subprocess.run(f'bash -c "source {activate_script} && python manage.py startapp {app}"', shell=True, check=True)
-                        if system == "Linux" or system == "Darwin":
-                            settings_rewriter(os.path.join(base_dir, project_name, project_name, 'settings.py'), app)
-                
-                static_writer(os.path.join(base_dir, project_name, project_name, 'settings.py'))
-
                 # Create static and template directories
+                Loading()
                 os.mkdir('static')
                 os.mkdir('template')
 
                 # Run the Django development server within the activated virtual environment
-                subprocess.run(f'bash -c "source {activate_script} && python manage.py migrate && python manage.py runserver"', shell=True)
+                if system == "Windows":
+                    Loading()
+                    activate_script = os.path.join(base_dir, project_name, 'venv', 'Scripts', 'activate')
+                    # Activate the virtual environment and install Django
+                    subprocess.run(f'{activate_script}', shell=True, check=True)
+                    subprocess.run(f'python manage.py migrate && python manage.py runserver', shell=True, check=True)
 
-                
-                # os.chdir(base_dir + project_name)
-                # os.system('pip install django')
-                # # django-admin startproject sample .
-                # os.system('django-admin startproject ' + project_name + ' .')
-                # # os.chdir(base_dir + project_name + '//' + project_name)
-
-                # from utils.settings_writter import settings_rewriter
-                # if len(apps) > 0:
-                #     for app in apps[::-1]:
-                #         os.system(f'python manage.py startapp {app}') # creating a new app in django project
-                #         if system == "Linux":
-                #             # os.chdir(base_dir + project_name)
-                #             # os.system('source venv/bin/activate')
-                #             settings_rewriter(base_dir + project_name + '/' + project_name + '/settings.py', app)
-
-                # os.mkdir('static') # creating a static folder for css,js,images, etc...
-                # os.mkdir('template') # creating a template folder for handling frondend files like html
-
-
-                # # input('Please select you database: enter (m) for mysql, (p) for postgresql, (m) for mongo db')
-
-                # os.system('python manage.py migrate') # running the server
-                # os.system('python manage.py runserver') # running the server
-
-                # webbrowser.open('http://127.0.0.1:8000/') # autoload on default browser
+                elif system == "Linux" or system == "Darwin":
+                    Loading()
+                    subprocess.run(f'bash -c "source {activate_script} && python manage.py migrate && python manage.py runserver"', shell=True)
 
             except FileExistsError:
                 print(f'{project_name} folder already exits.')
@@ -210,6 +187,3 @@ if BASE_DIR != "":
 
 else:
     print('Please set BASE_DIR in path.py file and run the script again')
-
-
-
