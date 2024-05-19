@@ -9,6 +9,18 @@ from utils.settings_writter import settings_rewriter, static_writer
 def Loading():
     print('Loading...')
 
+# projectname Missing from Command Line Arguments - solver
+while True:
+    if len(sys.argv) <= 1:
+        project_name = input('You missed entering your project name. Please enter it here: ')
+        if project_name.strip():
+            sys.argv.append(project_name)
+            break
+        else:
+            continue
+    else:
+        break
+
 # path selection section
 while True:
     project_loc = input("\nPlease select your project directory, enter one of the following options:\n'c' to create the project in the current directory\n'p' to create project with your custom path: ")
