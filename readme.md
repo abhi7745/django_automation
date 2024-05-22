@@ -108,9 +108,9 @@ When executing Python code as "python create.py <projectname>" becomes tedious, 
 
 - #### Make the script executable using your normal pip installation:
 
-  - [How to install in "Windows"](https://github.com/abhi7745/django_automation/blob/dev/pip_installation_guid_for_windows.md)
+  - [How to install in "Windows"](https://github.com/abhi7745/django_automation/blob/master/pip_installation_guid_for_windows.md)
   
-  - [How to install "Linux and Mac"](https://github.com/abhi7745/django_automation/blob/dev/pip_installation_guid_for_linux_mac.md)
+  - [How to install "Linux and Mac"](https://github.com/abhi7745/django_automation/blob/master/pip_installation_guid_for_linux_mac.md)
 
 
 ### Feedback and Contributions:
