@@ -1,7 +1,7 @@
 import sys
 import os
 import webbrowser
-from path import BASE_DIR
+# from path import BASE_DIR
 import platform, shutil, subprocess
 # Importing settings_rewriter from utils module
 from utils.settings_writter import settings_rewriter, static_writer
@@ -21,6 +21,7 @@ def Loading(value=True):
             time.sleep(0.1)
         value = False
 
+global BASE_DIR  # Declare BASE_DIR as a global variable
 
 def main():
 
@@ -36,7 +37,7 @@ def main():
         else:
             break
     
-    global BASE_DIR  # Declare BASE_DIR as a global variable
+    # global BASE_DIR  # Declare BASE_DIR as a global variable
     # path selection section
     while True:
         project_loc = input("\nPlease select your project directory, enter one of the following options:\n'c' to create the project in the current directory\n'p' to create project with your custom path: ")
@@ -47,21 +48,42 @@ def main():
 
         elif project_loc.lower() == 'p':
             # Create directory and its intermediate directories if they do not exist
+            try:
+                import tkinter
+                print("Please select your path..")
+
+            except ImportError:
+                subprocess.check_call([sys.executable, "-m", "pip", "install", "tk"])
+                print("Please select your path..")
+
+            import tkinter as tk
+            from tkinter.filedialog import askdirectory
+
+            # Create a root window and hide it
+            root = tk.Tk()
+            root.withdraw()
+
+            # Ask for directory path
+            path = askdirectory()
+            BASE_DIR = path
+
             if BASE_DIR.strip():
                 os.makedirs(BASE_DIR, exist_ok=True)  # This will create "/path/to/new/directory" along with any intermediate directories
                 if not BASE_DIR.endswith(os.path.sep):
                     BASE_DIR = BASE_DIR + os.path.sep
-                print('BASE_DIR: ', BASE_DIR)
-                break
-            else:
-                print('Please set BASE_DIR in path.py file and run the script again')
-                sys.exit(0)
 
+            print('BASE_DIR: ', BASE_DIR)
+
+            # Destroy the root window after getting the path
+            root.destroy()
+            break
 
         else:
             continue
 
     Loading()
+
+    
     if BASE_DIR != "":
 
         if not len(sys.argv) <= 1:
@@ -74,28 +96,33 @@ def main():
             base_dir = BASE_DIR
 
             # project folder exist solver section
-            if os.path.exists(base_dir + project_name):
-                # value = input(f'Project "{project_name}" already exists in the directory. \nPlease enter (y) to delete the folder and create new project, \n(n) to recreate with new project name, \n(e) to exit from program')
-                value = input(f'\nThe project named "{project_name}" already exists within the directory, enter one of the options below:\n'
-                    f"'d' to delete the folder and create a new project,\n"
-                    f"'n' to recreate with a new project name, or\n"
-                    f"'e' to exit from the program: ")
+            while True:
+                if os.path.exists(base_dir + project_name):
+                    # value = input(f'Project "{project_name}" already exists in the directory. \nPlease enter (y) to delete the folder and create new project, \n(n) to recreate with new project name, \n(e) to exit from program')
+                    value = input(f'\nThe project named "{project_name}" already exists within the directory, enter one of the options below:\n'
+                        f"'d' to delete the folder and create a new project,\n"
+                        f"'n' to recreate with a new project name, or\n"
+                        f"'e' to exit from the program: ")
 
-                if value.lower() == 'd':
-                    Loading()
-                    shutil.rmtree(base_dir + project_name)  # Remove directory and its contents
-                
-                elif value.lower() == 'n':
-                    project_name = input("Please enter a new project name: ")
-                    project_name = project_name.replace(' ', '_')
-                
-                elif value.lower() == 'e':
-                    print("Your program stoped successfully")
-                    sys.exit(0)
-                
-                else:
-                    print("Wrong input you entered")
-                    sys.exit(0)
+                    if value.lower() == 'd':
+                        Loading()
+                        shutil.rmtree(base_dir + project_name)  # Remove directory and its contents
+                        break
+                    
+                    elif value.lower() == 'n':
+                        project_name = input("Please enter a new project name: ")
+                        project_name = project_name.replace(' ', '_')
+                        break
+                    
+                    elif value.lower() == 'e':
+                        print("Your program stoped successfully")
+                        sys.exit(0)
+                    
+                    else:
+                        # print("Wrong input you entered")
+                        # sys.exit(0)
+                        continue
+                break
             
 
             apps = []
@@ -214,7 +241,8 @@ def main():
 
 
     else:
-        print('Please set BASE_DIR in path.py file and run the script again')
+        # print('Please set BASE_DIR in path.py file and run the script again')
+        print('\nPlease select the path, and try again!')
 
 if __name__ == "__main__":
     main()
