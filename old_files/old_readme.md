@@ -17,33 +17,29 @@ This repository contains a Python script that automates the process of creating 
 Before using this script, ensure that the following prerequisites are met:
 
 - Python is installed on your system.
--  No need to activate any virtual environment
 
 ## Usage:
-
-#### 1. Install the package using pip
-
-```bash
-pip install git+https://github.com/abhi7745/django_automation.git#egg=djangoautomation
-```
-
-#### 2. After successfully installing the package, you can use it as follows:
-
-- Open a terminal or command prompt (no need to activate any virtual environment) and run the following command:
+### 1. Clone this repository or download the repository to your local machine.
 
 ```bash
-create <project_name>
+git clone https://github.com/abhi7745/django_automation.git
 ```
 
-Replace <project_name> with the desired name for your Django project. Make sure to provide a project name without any spaces
+### 2. Open a terminal or command prompt and navigate to the directory where the create.py script is located.
+
+- Run the following command:
+
+    ```bash
+    python create.py <project_name>
+    ```
+
+    Replace <project_name> with the desired name for your Django project. Make sure to provide a project name without any spaces
 
 - Example:
 
-```bash
-create Ecommerce
-```
-
-If the command is not working, please close the current terminal and open a new one.
+    ```bash
+    python create.py Ecommerce
+    ```
 
 ### 3. Selecting Project Directory:
 
@@ -61,7 +57,21 @@ You can specify where you want to save the project by providing the path locatio
 
 - **Select 'p' :** If you choose to specify a custom path:
   
-![Path prompt](https://github.com/abhi7745/django_automation/blob/master/path_prompt.png)
+  - Navigate to the root folder of the script.
+  - Locate a file named `path.py` and open it.
+  - Set the path location in the `BASE_DIR` variable.
+  
+    Example configurations:
+    
+    - For Windows:
+      ```python
+      BASE_DIR = r"C:/your/path/to/project/folder"
+      ```
+
+    - For Linux / Mac:
+      ```python
+      BASE_DIR = r"/your/path/to/project/folder"
+      ```
 
 ### 4. Enter your desired apps:
 
@@ -90,7 +100,17 @@ You can specify where you want to save the project by providing the path locatio
 
 - The Django development server will be started automatically, and the project will be accessible at http://127.0.0.1:8000/.
 
-- You can now open your default web browser and check at localhost or http://127.0.0.1:8000/.
+- Your default web browser will open automatically to display the Django project.
+
+### Pro tip:
+
+When executing Python code as "python create.py <projectname>" becomes tedious, follow these pro tips to streamline your workflow with "create <projectname>".
+
+- #### Make the script executable using your normal pip installation:
+
+  - [How to install in "Windows"](https://github.com/abhi7745/django_automation/blob/master/pip_installation_guid_for_windows.md)
+  
+  - [How to install "Linux and Mac"](https://github.com/abhi7745/django_automation/blob/master/pip_installation_guid_for_linux_mac.md)
 
 
 ### Feedback and Contributions:
