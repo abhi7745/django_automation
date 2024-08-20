@@ -8,7 +8,7 @@ setup(
     author='Abhijith KR',
     author_email='abhijithkr.com@gmail.com',
     url='https://github.com/abhi7745/django_automation.git',
-    packages=find_packages(),
+    packages=find_packages(include=['build', 'build.*']),
     entry_points={
         'console_scripts': [
             'create=build.create:main',
