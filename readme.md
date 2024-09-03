@@ -61,7 +61,7 @@ You can specify where you want to save the project by providing the path locatio
 
 - **Select 'p' :** If you choose to specify a custom path:
   
-![Path prompt](https://github.com/abhi7745/django_automation/blob/master/path_prompt.png)
+![Path prompt](https://github.com/abhi7745/django_automation/blob/master/images/path_prompt.png)
 
 ### 4. Enter your desired apps:
 
